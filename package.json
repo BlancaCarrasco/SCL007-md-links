@@ -1,7 +1,19 @@
 {
   "name": "md-links",
   "version": "0.1.0",
+  "description": "Laboratoria project",
+  "main": "index.js",
   "devDependencies": {
     "jest": "^24.1.0"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "compare-versions": "^3.4.0",
+    "figlet": "^1.2.1",
+    "fs": "0.0.1-security",
+    "inquirer": "^6.2.2",
+    "minimist": "^1.2.0",
+    "path": "^0.12.7",
+    "shelljs": "^0.8.3"
   }
 }
