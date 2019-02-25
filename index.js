@@ -8,7 +8,7 @@ const run = async () => {
     // const params = getParams();
     Util.init();
     const params = Util.getParams();
-    console.log(chalk.blue('Parametros blanquita'));
+    console.log(chalk.blue('Parametros para mi'));
     console.log(chalk.yellow('validate: ', params.validate));
     console.log(chalk.yellow('stats: ', params.stats));
 };
