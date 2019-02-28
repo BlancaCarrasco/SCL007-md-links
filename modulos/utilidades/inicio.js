@@ -3,12 +3,10 @@ const figlet = require('figlet'); // Texto bonito para titulo
 const minimist = require('minimist'); // Permite leer parametros al ejecutar
 const fs = require('fs'); // Permite manejar archivos
 
-
-
-// imprimr titulo del proyecto
+// Imprime inicio de script
 const init = () => {
     console.log(
-        chalk.green(
+        chalk.yellow(
             figlet.textSync("MD-LINKS", {
                 font: "Contrast",
                 horizontalLayout: "default",
@@ -17,6 +15,7 @@ const init = () => {
         )
     );
 };
+
 const errorYFinalizar = (texto) => {
     console.log(chalk.red('Error: ' ,texto , '\nUse --help para ayuda'));
     process.exit(0);
@@ -45,6 +44,7 @@ const getParams = () => {
         stats: false,
         file: []
     };
+
     if (args._.length) {
         args._.forEach((url) => {
             const existe = validarArchivo(url);
