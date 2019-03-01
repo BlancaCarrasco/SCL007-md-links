@@ -1,6 +1,13 @@
 const chalk = require('chalk'); // Le da color al texto en la consola
 const Util = require('./modulos/utilidades/inicio'); // Utilidades basicas
 const fs = require('fs'); // Permite manejar archivos
+const markdownLinkExtractor = require('markdown-link-extractor');
+const fetch = require('node-fetch');
+const path = require('path');
+const read = process.argv[2]
+const pathIsAbsolute= path.resolve(read)
+
+
 
 /*
 let parametros = {
@@ -32,19 +39,71 @@ const specialCharacter = (linea, characterOpen, characterClose) => {
   return '';
 };
 
-const procesarTextoArchivo = (texto) => {
+const mdLinks = (texto) => {
   console.log('Texto archivo');
-  const textoEnLineas = texto.split('\n');
-  textoEnLineas.forEach((linea, numeroLinea, status) => {
+  const textInLines = texto.split('\n');
+  textInLines.forEach((linea, numeroLinea, ) => {
     const textoLink = specialCharacter(linea, '[', ']');
     const textoUrl = specialCharacter(linea, '(', ')');
-    if (textoLink !== '' && textoUrl) {
+    const linksStatus= specialCharacter(linea,);
+    if (textoLink !== '' && textoUrl && linksStatus) {
       console.log(chalk.red('Numero Linea: ', numeroLinea + 1));
       console.log('texto link : ', '[', textoLink, ']');
       console.log('texto url : ', '(', textoUrl, ')');
+      // console.log('texto statusUrl : ', '(', http.status, ')');
     }
   })
+}
+
+function links(pathIsAbsolute) {
+  let myPromise = new Promise((res, reject) => {
+    let markdown = fs.readFileSync(pathIsAbsolute).toString()
+    const linksStatus = markdownLinkExtractor(markdown);
+  
+     
+    console.log(links)
+      links.forEach(function (link) {
+        console.log(link);
+    });
+    const arrPromise = [];
+    for (let i = 0; i < links.length; i++) {
+      const links = linksStatus[i];
+      const text = linksStatus[i].text;
+      const fetchLinks = fetch(links).then(res => {
+          if (process.argv[3] === "--validate") {
+            const objectLinks = {
+              url: res.url,
+              statusLinks: res.status,
+              File: pathIsAbsolute,
+              statusText: res.statusText
+            };
+            return objectLinks;
+          } else {
+            const objectLinks = {
+              url: res.url,
+              File: pathIsAbsolute
+            }
+            return objectLinks;
+          }
+        })
+        .catch(error => {
+          const objectLinks = {
+            url: link,
+            statusLinks: "FAIL",
+          };
+          return objectLinks;
+        });
+      arrPromise.push(fetchLinks);
+    }
+    Promise.all(arrPromise).then(res => {
+      console.log(res)
+    }).catch(error => {
+      console.log(error);
+    })
+  })
 };
+
+mdLinks(pathIsAbsolute);
 
 // let xhttp= new XMLHttpRequest();
 // xhttp.onreadystatechange = function() {
@@ -70,21 +129,13 @@ const run = async () => {
         throw err;
       }
       content = data;
-      procesarTextoArchivo(content.toString('utf8'))
+      mdLinks(content.toString('utf8'))
 
     });
   });
-  //   function existeUrl(url) {
-  //     var http = new XMLHttpRequest();
-  //     http.open('HEAD', url, false);
-  //     http.send();
-  //     return http.status!=404;
-  //  }
+
   // console.log(chalk.blue('Parametros para mi'));
   // console.log(chalk.yellow('validate: ', params.validate));
   // console.log(chalk.yellow('stats: ', params.stats));
 };
-
-
-
 run()
