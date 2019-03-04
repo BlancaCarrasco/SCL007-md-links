@@ -18,6 +18,7 @@
     "markdown-it": "^8.4.2",
     "markdown-link-extractor": "^1.2.0",
     "minimist": "^1.2.0",
+    "mocha": "^6.0.2",
     "node-fetch": "^2.3.0",
     "path": "^0.12.7",
     "request": "^2.88.0",
